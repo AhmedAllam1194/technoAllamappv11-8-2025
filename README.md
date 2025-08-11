@@ -1,0 +1,1 @@
+# technoAllamappv11-8-2025
