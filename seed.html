@@ -1,0 +1,39 @@
+<!doctype html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>زرع بيانات تجريبية | ATD</title>
+<style>body{font-family:system-ui,Segoe UI,Roboto;max-width:800px;margin:30px auto;padding:16px}button{padding:10px 14px;border-radius:10px;border:1px solid #cbd5e1;cursor:pointer}</style>
+<script src="config.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+const app = initializeApp(window.AT_FIREBASE_CONFIG);
+const db = getFirestore(app);
+async function seed(){
+  const uname = document.getElementById('u').value.trim();
+  const email = document.getElementById('e').value.trim();
+  const pass = document.getElementById('p').value.trim();
+  const role = document.getElementById('r').value;
+  if(!uname){ alert('ضع اسم مستخدم'); return; }
+  const payload = { role };
+  if(email) payload.email = email;
+  if(pass)  payload.password = pass;
+  await setDoc(doc(db,'usernames', uname), payload);
+  alert('تم الزرع.');
+}
+window.addEventListener('DOMContentLoaded', ()=>{
+  document.getElementById('seed').onclick = seed;
+});
+</script>
+</head><body>
+<h2>زرع بيانات تجريبية (مطور)</h2>
+<label>اسم المستخدم</label><br><input id="u" placeholder="Admin"><br><br>
+<label>الإيميل (اختياري)</label><br><input id="e" placeholder="you@example.com"><br><br>
+<label>كلمة المرور (اختياري)</label><br><input id="p" placeholder="••••••••"><br><br>
+<label>الدور</label><br>
+<select id="r">
+  <option value="developer">developer</option>
+  <option value="admin" selected>admin</option>
+  <option value="staff">staff</option>
+</select><br><br>
+<button id="seed">زرع الآن</button>
+</body></html>
